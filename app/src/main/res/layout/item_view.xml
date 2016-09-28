@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/list_icon"
+        android:src="@drawable/wakeboard"
+        android:maxHeight="80dp"
+        android:maxWidth="80dp"
+        android:adjustViewBounds="true" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/item_txtFreq"
+        android:layout_alignParentTop="true"
+        android:layout_toRightOf="@id/list_icon"
+        android:text="Frequency"
+        android:textSize="20dp"
+        />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/item_txtMedian"
+        android:layout_below="@id/item_txtFreq"
+        android:layout_toRightOf="@id/list_icon"
+        android:text="MEDIAN"
+        android:textSize="18dp"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/item_txtPeak"
+        android:layout_alignParentRight="true"
+        android:text="PEAK"
+        android:textSize="20dp"/>
+</RelativeLayout>
