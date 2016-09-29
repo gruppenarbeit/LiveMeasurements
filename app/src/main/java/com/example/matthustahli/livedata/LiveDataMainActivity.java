@@ -21,6 +21,9 @@ import java.util.List;
 public class LiveDataMainActivity extends AppCompatActivity {
 
     private List<LiveMeasure> measures = new ArrayList<LiveMeasure>();      //list of cars..
+    private ArrayAdapter<LiveMeasure> adapter = new MyListAdapter();
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -31,6 +34,21 @@ public class LiveDataMainActivity extends AppCompatActivity {
         registerClickCallback();        //this activates the listener
 
     }
+
+    private void addItemToList(View view){
+
+        //open a file to add text
+        TextView textView = (TextView) findViewById(R.id.newFreq_textBox);
+        String newFreq_string = textView.getText().toString();
+        int newFreq_int = Integer.parseInt(newFreq_string);
+        //get text and save
+        measures.add(new LiveMeasure(newFreq_int, 0,0,0));
+
+        adapter.notifyDataSetChanged();
+    }
+
+
+
 
     private void registerClickCallback() {
         ListView listView = (ListView) findViewById(R.id.MeasureListView);
@@ -63,7 +81,6 @@ public class LiveDataMainActivity extends AppCompatActivity {
     }
 
     private void populateListView(){
-        ArrayAdapter<LiveMeasure> adapter = new MyListAdapter();
         ListView list = (ListView) findViewById(R.id.MeasureListView);
         list.setAdapter(adapter);
     }
