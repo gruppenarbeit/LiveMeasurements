@@ -1,5 +1,6 @@
 package com.example.matthustahli.livedata;
 
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -39,6 +40,13 @@ public class LiveDataMainActivity extends AppCompatActivity {
             public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
                 LiveMeasure chosenFrequency = measures.get(position);
                 Toast.makeText(LiveDataMainActivity.this, String.valueOf(chosenFrequency.getFrequency()), Toast.LENGTH_LONG).show();
+                //go to new activity
+                Intent intent = new Intent(LiveDataMainActivity.this, ShowSpecificDataPlot.class);
+                intent.putExtra("frequency" ,chosenFrequency.getFrequency());
+                intent.putExtra("median" ,chosenFrequency.getMedian());
+                intent.putExtra("peak" ,chosenFrequency.getPeak());
+                startActivity(intent);
+
                 return false;
             }
         });
