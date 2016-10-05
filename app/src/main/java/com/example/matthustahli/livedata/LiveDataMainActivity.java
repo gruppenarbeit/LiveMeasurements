@@ -1,12 +1,15 @@
 package com.example.matthustahli.livedata;
 
+import android.content.Context;
 import android.content.Intent;
 import android.provider.ContactsContract;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.text.InputType;
 import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -21,6 +24,7 @@ import android.widget.Toast;
 import java.util.ArrayList;
 import java.util.List;
 
+import static android.R.attr.gravity;
 import static android.R.attr.onClick;
 
 
@@ -43,31 +47,17 @@ public class LiveDataMainActivity extends AppCompatActivity {
 
     }
 
-   /* private void addItemToList(View view){
-
-        //open a file to add text
-        TextView textView = (TextView) findViewById(R.id.newFreq_textBox);
-        String newFreq_string = textView.getText().toString();
-        int newFreq_int = Integer.parseInt(newFreq_string);
-        //get text and save
-        measures.add(new LiveMeasure(100, 0,0,0));
-        adapter = new MyListAdapter();
-        populateMeasurements();
-        populateListView();
-        registerClickCallback();
-        //adapter.notifyDataSetChanged();
-    }
-    */
-
 
 
 
     private void registerClickCallback() {
         final ListView listView = (ListView) findViewById(R.id.MeasureListView);
-        listView.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
+
+        //short click on item- go to specific plot
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override   //display choosen frequency in toast..
             //from here, go to other activity which shows smaller plot..
-            public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 LiveMeasure chosenFrequency = measures.get(position);
                 Toast.makeText(LiveDataMainActivity.this, String.valueOf(chosenFrequency.getFrequency()), Toast.LENGTH_SHORT).show();
                 //go to new activity
@@ -76,10 +66,21 @@ public class LiveDataMainActivity extends AppCompatActivity {
                 intent.putExtra("median" ,chosenFrequency.getMedian());
                 intent.putExtra("peak" ,chosenFrequency.getPeak());
                 startActivity(intent);
-
-                return false;
             }
         });
+
+        //long click on iten- mark to be deleted
+        listView.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
+            @Override
+            public boolean onItemLongClick( AdapterView<?> parent, View view, int position, long id) {
+
+            measures.remove(position);          //take from list
+            adapter.notifyDataSetChanged();     //update list
+                return true;        //true means, i  have handled the event and it should stop here.. if i put false, it will trigger a normal click when removing my finger.
+            }
+        });
+
+        //add new element to list by clicking button
         ImageButton imageButton = (ImageButton) findViewById(R.id.add_freq_button);
         imageButton.setOnClickListener(new AdapterView.OnClickListener() {
             @Override
@@ -100,6 +101,18 @@ public class LiveDataMainActivity extends AppCompatActivity {
                 //get text and save
                 measures.add(new LiveMeasure(newFreq_int, 0,0,0)); //works// get the data in here!!!!!!
                 adapter.notifyDataSetChanged();
+
+                //closes keyboard again  (no idea how this works, but it does!!!!)
+                InputMethodManager inputManager = (InputMethodManager) LiveDataMainActivity.this.getSystemService(Context.INPUT_METHOD_SERVICE);
+                inputManager.hideSoftInputFromWindow(LiveDataMainActivity.this.getCurrentFocus().getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
+
+                //clear the textbox and put back the hint
+                editText.getText().clear();
+
+                //tell its added- make a toast.
+                Toast toast = Toast.makeText(LiveDataMainActivity.this, "ADDED" , Toast.LENGTH_SHORT);
+                toast.setGravity(Gravity.DISPLAY_CLIP_HORIZONTAL,0,-300);
+                toast.show();
             }
         });
 
