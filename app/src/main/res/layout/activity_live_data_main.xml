@@ -5,6 +5,10 @@
     android:layout_height="match_parent"
     tools:context="com.example.matthustahli.livedata.LiveDataMainActivity">
 
+    <include layout="@layout/toolbar"
+        android:id="@+id/toolbar_live_data" >
+    </include>
+
 
     <TextView
         android:id="@+id/txt_peak"
@@ -12,9 +16,9 @@
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
         android:layout_alignBaseline="@+id/txt_median"
+        android:layout_below="@+id/toolbar_live_data"
         android:text="PEAK"
-        android:textSize="@dimen/txt_fix_listView"
-        android:layout_alignParentTop="true" />
+        android:textSize="@dimen/txt_fix_listView" />
 
     <TextView
         android:id="@+id/txt_median"
@@ -22,8 +26,8 @@
         android:layout_height="wrap_content"
         android:text="MEDIAN"
         android:textSize="@dimen/txt_fix_listView"
+        android:layout_below="@+id/toolbar_live_data"
         android:layout_alignParentRight="true"
-        android:layout_alignParentTop="true"
         android:layout_marginRight="5dp"
     />
 
@@ -42,10 +46,9 @@
         android:background="@drawable/oval"
         android:layout_alignParentBottom="true"
         android:layout_alignParentEnd="true"
-        android:layout_marginBottom="0dp"
+        android:layout_marginBottom="5dp"
         android:layout_marginRight="20dp"
         android:src="@drawable/ic_plus_button"
-
         android:layout_alignParentRight="true" />
 
     <EditText

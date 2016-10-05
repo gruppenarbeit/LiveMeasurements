@@ -5,8 +5,11 @@ import android.content.Intent;
 import android.provider.ContactsContract;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.Toolbar;
 import android.text.InputType;
 import android.view.Gravity;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
@@ -24,6 +27,7 @@ import android.widget.Toast;
 import java.util.ArrayList;
 import java.util.List;
 
+import static android.R.attr.debuggable;
 import static android.R.attr.gravity;
 import static android.R.attr.onClick;
 
@@ -32,6 +36,7 @@ public class LiveDataMainActivity extends AppCompatActivity {
 
     private List<LiveMeasure> measures = new ArrayList<LiveMeasure>();      //list of cars..
     private ArrayAdapter<LiveMeasure> adapter;
+    private Toolbar toolbar;
 
 
     @Override
@@ -39,13 +44,59 @@ public class LiveDataMainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_live_data_main);
 
-        adapter= new MyListAdapter();
 
+
+        adapter= new MyListAdapter();
+        setUpToolbar();
         populateMeasurements();         //this populates the list with data
         populateListView();             // this plots the data to the layout
         registerClickCallback();        //this activates the listener
 
     }
+
+
+// system calls this when item in option bar is selected
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()){
+            case R.id.action_favorite:
+                //user chose the favorite item.. witch we have id'd
+                Toast.makeText(LiveDataMainActivity.this, "favorite", Toast.LENGTH_SHORT).show();
+                return true;
+            case R.id.action_settings:
+                //user chose setting item
+                Toast.makeText(LiveDataMainActivity.this, "settings", Toast.LENGTH_SHORT).show();
+                return true;
+            case android.R.id.home:
+                super.onBackPressed();  //this can still be over written, to save data for example!!! in case screen turns or something
+
+                return true;
+            default:
+               return super.onOptionsItemSelected(item);
+
+        }
+
+
+    }
+
+    // comes from a system call
+    @Override
+    public boolean onCreateOptionsMenu(final Menu menu) {
+        getMenuInflater().inflate(R.menu.main_toolbar, menu);
+
+        return true;
+    }
+
+    private void setUpToolbar() {
+        toolbar = (Toolbar) findViewById(R.id.toolbar_live_data);
+        setSupportActionBar(toolbar); //makes it compatible with all android versions
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+      //  getSupportActionBar().setTitle("You're a GENIUS");
+      //  getSupportActionBar().setIcon(R.drawable.ic_back_button);
+
+
+    }
+
 
 
 
