@@ -1,13 +1,17 @@
 package com.example.matthustahli.livedata;
 
 import android.content.Intent;
+import android.provider.ContactsContract;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -17,11 +21,13 @@ import android.widget.Toast;
 import java.util.ArrayList;
 import java.util.List;
 
+import static android.R.attr.onClick;
+
 
 public class LiveDataMainActivity extends AppCompatActivity {
 
     private List<LiveMeasure> measures = new ArrayList<LiveMeasure>();      //list of cars..
-    private ArrayAdapter<LiveMeasure> adapter = new MyListAdapter();
+    private ArrayAdapter<LiveMeasure> adapter;
 
 
     @Override
@@ -29,35 +35,41 @@ public class LiveDataMainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_live_data_main);
 
+        adapter= new MyListAdapter();
+
         populateMeasurements();         //this populates the list with data
         populateListView();             // this plots the data to the layout
         registerClickCallback();        //this activates the listener
 
     }
 
-    private void addItemToList(View view){
+   /* private void addItemToList(View view){
 
         //open a file to add text
         TextView textView = (TextView) findViewById(R.id.newFreq_textBox);
         String newFreq_string = textView.getText().toString();
         int newFreq_int = Integer.parseInt(newFreq_string);
         //get text and save
-        measures.add(new LiveMeasure(newFreq_int, 0,0,0));
-
-        adapter.notifyDataSetChanged();
+        measures.add(new LiveMeasure(100, 0,0,0));
+        adapter = new MyListAdapter();
+        populateMeasurements();
+        populateListView();
+        registerClickCallback();
+        //adapter.notifyDataSetChanged();
     }
+    */
 
 
 
 
     private void registerClickCallback() {
-        ListView listView = (ListView) findViewById(R.id.MeasureListView);
+        final ListView listView = (ListView) findViewById(R.id.MeasureListView);
         listView.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
             @Override   //display choosen frequency in toast..
             //from here, go to other activity which shows smaller plot..
             public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
                 LiveMeasure chosenFrequency = measures.get(position);
-                Toast.makeText(LiveDataMainActivity.this, String.valueOf(chosenFrequency.getFrequency()), Toast.LENGTH_LONG).show();
+                Toast.makeText(LiveDataMainActivity.this, String.valueOf(chosenFrequency.getFrequency()), Toast.LENGTH_SHORT).show();
                 //go to new activity
                 Intent intent = new Intent(LiveDataMainActivity.this, ShowSpecificDataPlot.class);
                 intent.putExtra("frequency" ,chosenFrequency.getFrequency());
@@ -68,6 +80,29 @@ public class LiveDataMainActivity extends AppCompatActivity {
                 return false;
             }
         });
+        ImageButton imageButton = (ImageButton) findViewById(R.id.add_freq_button);
+        imageButton.setOnClickListener(new AdapterView.OnClickListener() {
+            @Override
+            public void onClick(View view){
+                EditText editText = (EditText) findViewById(R.id.newFreq_textBox);
+                String newFreq_string = editText.getText().toString();
+
+                //catch if string empty
+                if(newFreq_string.matches("")){
+                    // send out toast, input not valid or just dont accept it.
+                    Toast toast = Toast.makeText(LiveDataMainActivity.this, "invalid Frequency", Toast.LENGTH_SHORT);
+                    toast.setGravity(Gravity.TOP|Gravity.CENTER_HORIZONTAL,0,0);
+                    toast.show();
+                    return;
+                }
+
+                int newFreq_int = Integer.parseInt(newFreq_string);
+                //get text and save
+                measures.add(new LiveMeasure(newFreq_int, 0,0,0)); //works// get the data in here!!!!!!
+                adapter.notifyDataSetChanged();
+            }
+        });
+
     }
 
     //here is where i get my data in
@@ -112,7 +147,7 @@ public class LiveDataMainActivity extends AppCompatActivity {
 
             //Fill the text views
             //set frequency
-            TextView freqText = (TextView) itemView.findViewById(R.id.item_txtFreq);
+            TextView freqText = (TextView) itemView.findViewById(R.id.item_dataFreq);
             freqText.setText(String.valueOf(currentMeasure.getFrequency()));
 
             //set median

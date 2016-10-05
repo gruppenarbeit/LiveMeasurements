@@ -20,7 +20,7 @@ public class ShowSpecificDataPlot extends AppCompatActivity {
         //get the intent!
         Intent intent = getIntent();
         thisFreq = initialize(intent);
-        String message = String.valueOf(thisFreq.getFrequency());
+        String message = "Frequency: " + String.valueOf(thisFreq.getFrequency()) ;
         TextView textView = (TextView) findViewById(R.id.specificDataPlot_frequency);
         textView.setTextSize(40);
         textView.setText(message);
@@ -28,6 +28,9 @@ public class ShowSpecificDataPlot extends AppCompatActivity {
         ImageView imageView = (ImageView) findViewById(R.id.specificDataPlot_plot);
         imageView.setImageResource(R.drawable.plot);
     }
+
+
+
 
     //copies values of intent to LiveMeasure element.
     public LiveMeasure initialize(Intent intent){

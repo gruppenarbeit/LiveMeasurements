@@ -11,11 +11,13 @@
         android:textSize="40dp"
         android:id="@+id/specificDataPlot_frequency"
         android:layout_gravity="center_horizontal"
-        android:layout_marginTop="20dp"/>
+        android:layout_marginTop="10dp"/>
+
 
     <ImageView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_gravity="center"
         android:id="@+id/specificDataPlot_plot"
         android:src="@drawable/plot"/>
 

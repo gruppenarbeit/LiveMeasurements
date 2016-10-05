@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">LiveData</string>
+    <string name="freq_name">Frequency:</string>
 </resources>

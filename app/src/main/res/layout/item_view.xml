@@ -8,25 +8,36 @@
         android:layout_height="wrap_content"
         android:id="@+id/list_icon"
         android:src="@drawable/wakeboard"
-        android:maxHeight="80dp"
-        android:maxWidth="80dp"
+        android:maxHeight="100dp"
+        android:maxWidth="100dp"
         android:adjustViewBounds="true" />
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/item_txtFreq"
-        android:layout_alignParentTop="true"
-        android:layout_toRightOf="@id/list_icon"
+        android:id="@+id/item_dataFreq"
+        android:layout_alignBaseline="@+id/txtFreq"
+        android:layout_toRightOf="@id/txtFreq"
         android:text="Frequency"
         android:textSize="20dp"
+        android:layout_marginTop="25dp"
+        android:layout_marginLeft="8dp"
+        />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/freq_name"
+        android:textSize="25dp"
+        android:layout_toRightOf="@+id/list_icon"
+        android:id="@+id/txtFreq"
         />
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/item_txtMedian"
-        android:layout_below="@id/item_txtFreq"
+        android:layout_alignBottom="@+id/list_icon"
         android:layout_toRightOf="@id/list_icon"
         android:text="MEDIAN"
         android:textSize="18dp"/>
